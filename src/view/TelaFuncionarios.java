@@ -1,5 +1,6 @@
 package view;
 
+import model.FuncionarioDAO;
 import model.FuncionarioEncapsulamento;
 
 public class TelaFuncionarios extends javax.swing.JFrame {
@@ -105,21 +106,29 @@ public class TelaFuncionarios extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
 
+        boolean resposta;
+        FuncionarioDAO DAO;
+        DAO = new FuncionarioDAO();
+        
+        
         String nome, cargo;
         int matricula;
         double salario;
 
-        nome = txtNome.getText();
-        cargo = txtCargo.getText();
-        matricula = Integer.parseInt(txtMatricula.getText());
-        salario = Double.parseDouble(txtSalario.getText());
-
-        /* instânciando um objeto da classe funcionarioEncapsulamento :) */
         
+        nome = txtNome.getText().trim();
+        cargo = txtCargo.getText().trim();
+        matricula = Integer.parseInt(txtMatricula.getText().trim());
+        salario = Double.parseDouble(txtSalario.getText().trim());
+        
+        resposta = DAO.conectar();
+       
+        /* instânciando um objeto da classe funcionarioEncapsulamento :) */
         FuncionarioEncapsulamento func;
         func = new FuncionarioEncapsulamento();
 
         func.FuncionarioEncapsulamento(matricula, nome, cargo, salario);
+
     }//GEN-LAST:event_jButton1ActionPerformed
 
     public static void main(String args[]) {
