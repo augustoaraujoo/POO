@@ -13,8 +13,8 @@ public class FuncionarioEncapsulamento {
         this.cargo = cargo;
         this.salario = salario;
     }
+    
 
-    //gets
     public int getMatricula() { return this.matricula; }
 
     public String getNome() { return this.nome; }

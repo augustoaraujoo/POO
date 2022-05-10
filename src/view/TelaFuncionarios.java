@@ -1,5 +1,7 @@
 package view;
 
+import business.funcionarioService;
+import javax.swing.JOptionPane;
 import model.FuncionarioDAO;
 import model.FuncionarioEncapsulamento;
 
@@ -109,27 +111,47 @@ public class TelaFuncionarios extends javax.swing.JFrame {
         boolean resposta;
         FuncionarioDAO DAO;
         DAO = new FuncionarioDAO();
-        
-        
+        /* */
+        funcionarioService service;
+        service = new funcionarioService();
+        boolean salarioCheck;
+        /* / */
         String nome, cargo;
         int matricula;
         double salario;
 
-        
         nome = txtNome.getText().trim();
         cargo = txtCargo.getText().trim();
         matricula = Integer.parseInt(txtMatricula.getText().trim());
         salario = Double.parseDouble(txtSalario.getText().trim());
-        
+
+        salarioCheck = service.verificarSalario(Double.parseDouble(txtSalario.getText()));
+        if (salarioCheck) {
+            JOptionPane.showMessageDialog(null, "salário deve ser meno que 20 mil");
+            return;
+        }
         resposta = DAO.conectar();
-       
+
         /* instânciando um objeto da classe funcionarioEncapsulamento :) */
-        FuncionarioEncapsulamento func;
-        func = new FuncionarioEncapsulamento();
+        FuncionarioEncapsulamento funcionario;
+        funcionario = new FuncionarioEncapsulamento();
 
-        func.FuncionarioEncapsulamento(matricula, nome, cargo, salario);
+        if (resposta) {
+            DAO.salvar(funcionario);
+            limparCampos();
+        } else {
+            JOptionPane.showMessageDialog(null, "Erro conexão !");
+        }
 
+        funcionario.FuncionarioEncapsulamento(matricula, nome, cargo, salario);
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void limparCampos() {
+        txtNome.setText("");
+        txtCargo.setText("");
+        txtMatricula.setText("");
+        txtSalario.setText("");
+    }
 
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
