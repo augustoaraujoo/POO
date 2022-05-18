@@ -14,7 +14,6 @@ public class FuncionarioEncapsulamento {
         this.salario = salario;
     }
     
-
     public int getMatricula() { return this.matricula; }
 
     public String getNome() { return this.nome; }

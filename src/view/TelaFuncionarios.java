@@ -24,6 +24,7 @@ public class TelaFuncionarios extends javax.swing.JFrame {
         lblSalario = new javax.swing.JLabel();
         txtSalario = new javax.swing.JTextField();
         jButton1 = new javax.swing.JButton();
+        btnPesquisar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Controle funcionários");
@@ -86,6 +87,15 @@ public class TelaFuncionarios extends javax.swing.JFrame {
         getContentPane().add(jButton1);
         jButton1.setBounds(140, 250, 100, 30);
 
+        btnPesquisar.setText("Pesquisar");
+        btnPesquisar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnPesquisarActionPerformed(evt);
+            }
+        });
+        getContentPane().add(btnPesquisar);
+        btnPesquisar.setBounds(250, 250, 100, 30);
+
         setSize(new java.awt.Dimension(416, 339));
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
@@ -112,20 +122,18 @@ public class TelaFuncionarios extends javax.swing.JFrame {
         FuncionarioDAO DAO;
         DAO = new FuncionarioDAO();
         /* */
-        funcionarioService service;
-        service = new funcionarioService();
         boolean salarioCheck;
         /* / */
         String nome, cargo;
         int matricula;
         double salario;
 
-        nome = txtNome.getText().trim();
-        cargo = txtCargo.getText().trim();
-        matricula = Integer.parseInt(txtMatricula.getText().trim());
-        salario = Double.parseDouble(txtSalario.getText().trim());
+        nome = txtNome.getText();
+        cargo = txtCargo.getText();
+        matricula = Integer.parseInt(txtMatricula.getText());
+        salario = Double.parseDouble(txtSalario.getText());
 
-        salarioCheck = service.verificarSalario(Double.parseDouble(txtSalario.getText()));
+        salarioCheck = funcionarioService.verificarSalario(Double.parseDouble(txtSalario.getText()));
         if (salarioCheck) {
             JOptionPane.showMessageDialog(null, "salário deve ser meno que 20 mil");
             return;
@@ -137,7 +145,7 @@ public class TelaFuncionarios extends javax.swing.JFrame {
         funcionario = new FuncionarioEncapsulamento();
 
         if (resposta) {
-            DAO.salvar(funcionario);
+            DAO.salvarFuncionarioDB(funcionario);
             limparCampos();
         } else {
             JOptionPane.showMessageDialog(null, "Erro conexão !");
@@ -145,6 +153,22 @@ public class TelaFuncionarios extends javax.swing.JFrame {
 
         funcionario.FuncionarioEncapsulamento(matricula, nome, cargo, salario);
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void btnPesquisarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPesquisarActionPerformed
+        int matricula;
+        boolean conectou;
+        FuncionarioDAO DAO;
+
+        DAO = new FuncionarioDAO();
+        conectou = DAO.conectar();
+
+        if (conectou) {
+            matricula = Integer.parseInt(txtMatricula.getText().trim());
+            DAO.pesquisarFuncionarioMatricula(matricula);
+        }
+
+
+    }//GEN-LAST:event_btnPesquisarActionPerformed
 
     private void limparCampos() {
         txtNome.setText("");
@@ -186,6 +210,7 @@ public class TelaFuncionarios extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnPesquisar;
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel lblCargo;
     private javax.swing.JLabel lblMatricula;
